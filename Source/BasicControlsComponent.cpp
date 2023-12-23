@@ -14,17 +14,19 @@
 
 //==============================================================================
 
+// Represents a pulse width modulator range, which always has a rangeStart of 0
+// and a rangeEnd of 100, and 4 duty cycle settings.
 class PWMRange : public juce::NormalisableRange<double> {
 public:
-    static double normalize(double rangeStart, double rangeEnd, double valueToRemap)
+    static double normalize(double /*rangeStart*/, double /*rangeEnd*/, double valueToRemap)
     {
-        return valueToRemap / 100;
+        return valueToRemap / 100.f;
     }
-    static double denormalize(double rangeStart, double rangeEnd, double valueToRemap)
+    static double denormalize(double /*rangeStart*/, double /*rangeEnd*/, double valueToRemap)
     {
-        return valueToRemap * 100;
+        return valueToRemap * 100.f;
     }
-    static double snap(double rangeStart, double rangeEnd, double valueToRemap)
+    static double snap(double /*rangeStart*/, double /*rangeEnd*/, double valueToRemap)
     {
         return SquareOscilator::normalizeDutyCycle(valueToRemap);
     }
@@ -130,7 +132,7 @@ void BasicControlsComponent::sliderValueChanged(juce::Slider *slider)
         Synth::INSTANCE.setDutyCycle(id_, slider->getValue());
     } else if (slider == &volSlider) {
         jassert(id_ != 2);
-        Synth::INSTANCE.setVolume(id_, ((float) slider->getValue()) / 15.0);
+        Synth::INSTANCE.setVolume(id_, ((float) slider->getValue()) / 15.0f);
     }
 }
 

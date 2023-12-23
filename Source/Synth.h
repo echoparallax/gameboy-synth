@@ -128,7 +128,7 @@ private:
     Multi_Buffer* buf_;
     bool stereo_;
     blip_time_t clock_;
-    blip_sample_t samples_[2];
+    blip_sample_t samples_[2]{};
 
 public:
     Apu();
@@ -149,7 +149,7 @@ private:
 
 class Oscillator {
 protected:
-    Apu* apu_;
+    Apu* apu_ = nullptr;
     uint16_t startAddr_;
     OSCID id_;
 
@@ -222,6 +222,14 @@ public:
             case DutyCycle::duty50: return 50.0;
             case DutyCycle::duty75: return 75.0;
         }
+        // Avoid MSVC warning C4715: this should be unreachable, but the
+        // compiler doesn't infer that, and produces a warning that execution
+        // might reach the end of this function if `d` contained a value that
+        // was outside the range of DutyCycle (which is itself undefined
+        // behavior)
+#ifdef _MSC_VER
+        __assume(false);
+#endif
     }
 
 protected:
@@ -312,9 +320,9 @@ public:
         }
     }
 
-    void setVolume(OSCID oscillator, double value)
+    void setVolume(OSCID oscillator, float value)
     {
-        jassert(value >= 0.0 && value <= 1.0);
+        jassert(value >= 0.0f && value <= 1.0f);
         oscs_[oscillator]->volume = value;
     }
 

@@ -47,7 +47,9 @@ void Apu::writeRegister(gb_addr_t addr, uint8_t data)
 
 uint8_t Apu::readRegister(gb_addr_t addr)
 {
-    return apu_.read_register(tick(), addr);
+    // Gb_Apu::read_register() always returns a value in uint8_t's range,
+    // but doesn't declare that in its types.
+    return static_cast<uint8_t>(apu_.read_register(tick(), addr));
 }
 
 inline long Apu::samplesAvailable()

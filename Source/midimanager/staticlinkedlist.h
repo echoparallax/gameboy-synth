@@ -8,7 +8,7 @@
 
 #define SLL_ASSERT_SANITY_CHECKS() \
     assert((size_ == 0) == (cur_ == nullptr)); \
-    if (TSize > 1) { \
+    if constexpr (TSize > 1) { \
       assert(head_->up == nullptr); \
       assert(tail_->down == nullptr); \
       assert(cur_ == nullptr || cur_->up != cur_->down); \
@@ -73,7 +73,7 @@ template <typename T, size_t TSize> class StaticLinkedList {
     }
     tail_->down = nullptr;
     head_->up = nullptr;
-    if (TSize == 1) {
+    if constexpr (TSize == 1) {
       tail_->up = nullptr;
       head_->down = nullptr;
       return;
@@ -130,7 +130,7 @@ template <typename T, size_t TSize> class StaticLinkedList {
       SLL_ASSERT_SANITY_CHECKS();
       return;
     }
-    if (TSize == 1) {
+    if constexpr (TSize == 1) {
       cur_->data = item;
       SLL_ASSERT_SANITY_CHECKS();
       return;

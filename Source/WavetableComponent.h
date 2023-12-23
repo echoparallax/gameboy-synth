@@ -34,7 +34,7 @@ public:
 
 private:
     bool changed_ = false;
-    uint8_t wavetable[WAVE_TABLE_SIZE];
+    uint8_t wavetable[WAVE_TABLE_SIZE]{};
 
     int padX();
     int padY();

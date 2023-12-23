@@ -22,6 +22,7 @@ enum GameBoyColorIds {
     OscOutlineColorId
 };
 
+// TODO: This currently isn't called by anything
 static void theme(juce::LookAndFeel& lookAndFeel)
 {
     lookAndFeel.setColour(GameBoyColorIds::OscOutlineColorId, juce::Colours::black);

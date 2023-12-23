@@ -86,13 +86,16 @@ void WavetableComponent::enableWavePixel(const juce::MouseEvent &event)
     int sf = scaleFactor();
     int x = (event.getPosition().getX() - padX()) / sf;
     int y = heightUnits - ((event.getPosition().getY() - padY()) / sf) - 1;
+    // Clamp y to the uint8_t range, just in case
+    if (y < 0) y = 0;
+    if (y > std::numeric_limits<uint8_t>::max()) y = std::numeric_limits<uint8_t>::max();
     uint8_t currentValue = wavetable[x];
     if (currentValue != y) {
         if (!changed_) {
             sendSynchronousChangeMessage();
         }
         changed_ = true;
-        wavetable[x] = y;
+        wavetable[x] = static_cast<uint8_t>(y);
         repaint(drawingBounds());
     }
 }
