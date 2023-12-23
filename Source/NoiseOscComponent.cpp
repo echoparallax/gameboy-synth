@@ -22,12 +22,17 @@ NoiseOscComponent::~NoiseOscComponent() {}
 
 void NoiseOscComponent::paint(juce::Graphics& g)
 {
-    g.setColour(getLookAndFeel().findColour(GameBoyColorIds::OscOutlineColorId));
+    // Outline
+    g.setColour(getLookAndFeel().findColour(OscOutlineColorId));
     g.drawRect(getLocalBounds());
+
+    // Oscillator label
+    g.setColour(getLookAndFeel().findColour(OscLabelColorId));
+    g.drawText("Noise", getLocalBounds().reduced(OutlineMargin), juce::Justification::topRight);
 }
 
 void NoiseOscComponent::resized()
 {
-    int upperBlockUnit = getLocalBounds().proportionOfHeight(0.25);
-    controls.setBounds(0, 0, getLocalBounds().getWidth(), upperBlockUnit);
+    const juce::Rectangle<int> inner = getLocalBounds().reduced(OutlineMargin);
+    controls.setBounds(inner.withHeight(inner.proportionOfHeight(BasicControlHeightProportion)));
 }

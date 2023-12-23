@@ -27,5 +27,6 @@ public:
 
 private:
     BasicControlsComponent controls;
+    std::string labelText;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SquareOscComponent)
 };

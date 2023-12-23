@@ -36,7 +36,9 @@ private:
     OSCID id_;
     juce::ToggleButton enableButton;
     juce::Slider volSlider;
+    juce::Label volSliderLabel;
     juce::Slider pwmSlider;
+    juce::Label pwmSliderLabel;
     juce::ComboBox voicePicker;
     juce::ComboBox channelPicker;
     juce::ComboBox transposePicker;

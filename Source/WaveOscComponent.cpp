@@ -34,20 +34,26 @@ WaveOscComponent::WaveOscComponent() : controls(2), shapePicker("Shape")
 WaveOscComponent::~WaveOscComponent() {}
 
 void WaveOscComponent::paint(juce::Graphics& g) {
-    g.setColour(getLookAndFeel().findColour(GameBoyColorIds::OscOutlineColorId));
+    // Outline
+    g.setColour(getLookAndFeel().findColour(OscOutlineColorId));
     g.drawRect(getLocalBounds());
+
+    // Oscillator label
+    g.setColour(getLookAndFeel().findColour(OscLabelColorId));
+    g.drawText("Wave", getLocalBounds().reduced(OutlineMargin), juce::Justification::topRight);
 }
 
 void WaveOscComponent::resized()
 {
-    int upperBlockUnit = getLocalBounds().proportionOfHeight(0.25);
-    controls.setBounds(0, 0, getLocalBounds().getWidth(), upperBlockUnit);
+    const juce::Rectangle<int> inner = getLocalBounds().reduced(OutlineMargin);
+    const int upperBlockUnit = inner.proportionOfHeight(BasicControlHeightProportion);
+    controls.setBounds(inner.withHeight(upperBlockUnit));
 
-    static int pickerPad = 5;
+    static int pickerPad = 5; // TODO: Could this be OutlineMargin?
     static int pickerHeight = 25;
     static int pickerWidth = 150;
-    shapePicker.setBounds(getLocalBounds().getWidth() - pickerWidth - pickerPad, upperBlockUnit + pickerPad, pickerWidth, pickerHeight);
-    juce::Rectangle<int> wavetableBounds = getLocalBounds();
+    shapePicker.setBounds(inner.getWidth() - pickerWidth - pickerPad, upperBlockUnit + pickerPad, pickerWidth, pickerHeight);
+    juce::Rectangle<int> wavetableBounds = inner;
     wavetableBounds.removeFromTop(upperBlockUnit + pickerHeight + 2*pickerPad);
     wavetable.setBounds(wavetableBounds);
 }

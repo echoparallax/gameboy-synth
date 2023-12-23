@@ -36,7 +36,9 @@ public:
 BasicControlsComponent::BasicControlsComponent(OSCID id) :
     enableButton("Enable"),
     volSlider("Volume"),
+    volSliderLabel("VolumeLabel", "Vol"),
     pwmSlider("PWM"),
+    pwmSliderLabel("PWMLabel", "PWM"),
     voicePicker("Voice"),
     channelPicker("Channel"),
     transposePicker("Transpose")
@@ -49,6 +51,8 @@ BasicControlsComponent::BasicControlsComponent(OSCID id) :
     addAndMakeVisible(enableButton);
     // volume
     if (id != 2) {
+        // addAndMakeVisible(volSliderLabel);
+
         volSlider.addListener(this);
         volSlider.setSliderStyle(juce::Slider::Rotary);
         volSlider.setRange(0, 15, 1);
@@ -59,6 +63,8 @@ BasicControlsComponent::BasicControlsComponent(OSCID id) :
     }
     // pwm
     if (id == 0 || id == 1) {
+        // addAndMakeVisible(pwmSliderLabel);
+
         pwmSlider.addListener(this);
         pwmSlider.setSliderStyle(juce::Slider::Rotary);
         pwmSlider.setNormalisableRange(PWMRange());
@@ -103,6 +109,8 @@ void BasicControlsComponent::resized()
     enableButton.setBounds(left, 0, height, height);
     left = enableButton.getBounds().getRight();
     // volume
+    // volSliderLabel.setBounds(left, 0, height, height * 0.25);
+    // volSliderLabel.setJustificationType(juce::Justification::centred);
     volSlider.setBounds(left, 0, height, height);
     volSlider.setTextBoxStyle(pwmSlider.TextBoxBelow, true, volSlider.getBounds().getWidth(), volSlider.getBounds().getHeight()/4);
     left = volSlider.getBounds().getRight();
@@ -110,6 +118,8 @@ void BasicControlsComponent::resized()
     if (id_ == 0 || id_ == 1) {
         pwmSlider.setBounds(left, 0, height, height);
         pwmSlider.setTextBoxStyle(pwmSlider.TextBoxBelow, true, pwmSlider.getBounds().getWidth(), pwmSlider.getBounds().getHeight()/4);
+        // pwmSliderLabel.setBounds(left, 0, height, (height * 3) / 4);
+        // pwmSliderLabel.setJustificationType(juce::Justification::centred);
         left = pwmSlider.getBounds().getRight();
     }
     // pickers
